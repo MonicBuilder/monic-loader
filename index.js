@@ -1,4 +1,4 @@
-/*
+/*!
  * monic-loader
  * https://github.com/MonicBuilder/monic-loader
  *
