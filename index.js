@@ -10,7 +10,7 @@ var
 	loaderUtils = require('loader-utils'),
 	monic = require('monic');
 
-module.exports = function (source) {
+module.exports = function (source, inputSourceMap) {
 	if (this.cacheable) {
 		this.cacheable();
 	}
@@ -25,6 +25,7 @@ module.exports = function (source) {
 	}, {});
 
 	opts.sourceMaps = this.sourceMap;
+	opts.inputSourceMap = inputSourceMap;
 	opts.content = source;
 	opts.saveFiles = false;
 
