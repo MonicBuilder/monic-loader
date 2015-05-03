@@ -38,7 +38,7 @@ webpack({
       }
     ]
   }
-}), function (err, stats) {
+}, function (err, stats) {
     // ...
 });
 ```
