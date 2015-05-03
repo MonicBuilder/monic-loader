@@ -34,11 +34,7 @@
   },
   "devDependencies": {
     "jscs": "^1.12.0",
-    "webpack": "^1.8.11",
-    "webpack-dev-server": "^1.8.2"
-  },
-  "peerDependencies": {
-    "webpack": "*"
+    "webpack": "^1.8.11"
   },
   "keywords": [
     "webpack",
