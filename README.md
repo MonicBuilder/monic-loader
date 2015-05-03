@@ -22,7 +22,7 @@ var webpack = require('webpack');
 
 webpack({
   entry: {
-      readme: './readme.md"
+      readme: './readme.md'
   },
 
   output: {
