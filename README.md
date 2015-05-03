@@ -22,7 +22,7 @@ var webpack = require('webpack');
 
 webpack({
   entry: {
-      readme: './readme.md'
+      index: './index.js'
   },
 
   output: {
@@ -32,7 +32,7 @@ webpack({
   module: {
     loaders: [
       {
-        test: /\.md$/,
+        test: /\.js$/,
         exclude: /node_modules/,
         loader: 'monic-loader'
       }

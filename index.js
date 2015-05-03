@@ -28,7 +28,7 @@ module.exports = function (source) {
 	opts.content = source;
 	opts.saveFiles = false;
 
-	monic(loaderUtils.getRemainingRequest(this), opts, function (err, data, sourceMap) {
+	monic.compile(loaderUtils.getRemainingRequest(this), opts, function (err, data, sourceMap) {
 		cb(err, data, sourceMap && sourceMap.map);
 	});
 };
