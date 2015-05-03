@@ -7,6 +7,9 @@
  */
 
 var
+	$C = require('collection.js').$C;
+
+var
 	loaderUtils = require('loader-utils'),
 	monic = require('monic');
 
@@ -19,9 +22,18 @@ module.exports = function (source, inputSourceMap) {
 		opts = loaderUtils.parseQuery(this.query),
 		cb = this.async();
 
-	opts = Object.keys(opts).reduce(function (accumulator, key) {
-		accumulator[key] = parse(opts[key]);
-		return accumulator;
+	opts = $C(opts).reduce(function (map, val, key) {
+		if ((key === 'flags' || key === 'labels') && typeof val === 'string') {
+			map[key] = $C(val.split('|')).reduce(function (map, el) {
+				map[el] = true;
+				return map;
+			}, {});
+
+		} else {
+			map[key] = parse(val);
+		}
+
+		return map;
 	}, {});
 
 	opts.sourceMaps = this.sourceMap;

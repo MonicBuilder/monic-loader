@@ -34,7 +34,7 @@ webpack({
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'monic-loader'
+        loader: 'monic-loader?flags=ie|develop,labels=full'
       }
     ]
   }

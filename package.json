@@ -29,6 +29,7 @@
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "dependencies": {
+    "collection.js": "^5.5.5",
     "loader-utils": "^0.2.7",
     "monic": "^2.0.0"
   },
