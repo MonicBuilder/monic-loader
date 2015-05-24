@@ -1,7 +1,7 @@
 {
   "fileExtensions": [".js"],
   "excludeFiles": [
-    "node_modules/**/*"
+    "node_modules/**"
   ],
 
   "validateIndentation": "\t",
@@ -100,8 +100,7 @@
 
   "disallowOperatorBeforeLineBreak": [
     "~",
-    ".",
-    "::"
+    "."
   ],
 
   "requireSpacesInFunctionDeclaration": {
