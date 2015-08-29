@@ -45,6 +45,6 @@ webpack({
 ```
 
 ## [Options](https://github.com/MonicBuilder/Monic#using-in-nodejs)
-## [License](https://github.com/MonicBuilder/gulp-monic/blob/master/LICENSE)
+## [License](https://github.com/MonicBuilder/monic-loader/blob/master/LICENSE)
 
 The MIT License.
