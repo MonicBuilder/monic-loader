@@ -20,21 +20,36 @@ module.exports = function (source, inputSourceMap) {
 
 	var
 		opts = loaderUtils.parseQuery(this.query),
+		optsIsObj = /^\?(?:\{|\[)/.test(this.query),
 		cb = this.async();
 
-	opts = $C(opts).reduce(function (map, val, key) {
-		if ((key === 'flags' || key === 'labels') && typeof val === 'string') {
-			map[key] = $C(val.split('|')).reduce(function (map, el) {
-				map[el] = true;
-				return map;
-			}, {});
+	if (!optsIsObj) {
+		opts = $C(opts).reduce(function (map, val, key) {
+			try {
+				if ({flags: true, labels: true}[key]) {
+					map[key] = $C(val.split('|')).reduce(function (map, el) {
+						if (key === 'labels') {
+							map[el] = true;
 
-		} else {
-			map[key] = parse(val);
-		}
+						} else {
+							el = el.split(':');
+							map[el[0]] = el[1] || true;
+						}
 
-		return map;
-	}, {});
+						return map;
+					}, {});
+
+				} else {
+					map[key] = eval('(' + val + ')');
+				}
+
+			} catch (ignore) {
+				map[key] = val;
+			}
+
+			return map;
+		}, {});
+	}
 
 	opts.sourceMaps = this.sourceMap;
 	opts.inputSourceMap = inputSourceMap;
@@ -45,16 +60,3 @@ module.exports = function (source, inputSourceMap) {
 		cb(err, data, sourceMap && sourceMap.map);
 	});
 };
-
-function parse(val) {
-	switch (val) {
-		case 'true':
-			return true;
-
-		case 'false':
-			return false;
-
-		default:
-			return val;
-	}
-}
