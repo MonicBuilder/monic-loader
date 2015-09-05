@@ -7,9 +7,11 @@
  */
 
 var
-	$C = require('collection.js').$C;
+	$C = require('collection.js').$C,
+	parent = module.parent;
 
 var
+	path = require('path'),
 	loaderUtils = require('loader-utils'),
 	monic = require('monic');
 
@@ -23,40 +25,58 @@ module.exports = function (source, inputSourceMap) {
 		optsIsObj = /^\?(?:\{|\[)/.test(this.query),
 		cb = this.async();
 
-	if (!optsIsObj) {
-		opts = $C(opts).reduce(function (map, val, key) {
-			try {
-				if ({flags: true, labels: true}[key]) {
-					map[key] = $C(val.split('|')).reduce(function (map, el) {
-						if (key === 'labels') {
-							map[el] = true;
-
-						} else {
-							el = el.split(':');
-							map[el[0]] = el[1] || true;
-						}
-
-						return map;
-					}, {});
+	opts = $C(opts).reduce(function (map, val, key) {
+		if ({flags: true, labels: true}[key] && !optsIsObj) {
+			map[key] = $C(val.split('|')).reduce(function (map, el) {
+				if (key === 'labels') {
+					map[el] = true;
 
 				} else {
-					map[key] = eval('(' + val + ')');
+					el = el.split(':');
+					map[el[0]] = el[1] || true;
 				}
 
-			} catch (ignore) {
-				map[key] = val;
-			}
+				return map;
+			}, {});
 
-			return map;
-		}, {});
-	}
+		} else {
+			map[key] = parse(val);
+		}
 
-	opts.sourceMaps = this.sourceMap;
-	opts.inputSourceMap = inputSourceMap;
-	opts.content = source;
-	opts.saveFiles = false;
+		return map;
+	}, {});
+
+	opts = $C.extend(false, {}, this.options.monic, opts, {
+		sourceMaps: this.sourceMap,
+		inputSourceMap: inputSourceMap,
+		content: source,
+		saveFiles: false
+	});
 
 	monic.compile(loaderUtils.getRemainingRequest(this), opts, function (err, data, sourceMap) {
 		cb(err, data, sourceMap && sourceMap.map);
 	});
 };
+
+function parse(val) {
+	try {
+		if (typeof val === 'object') {
+			$C(val).forEach(function (el, key) {
+				val[key] = new Function(
+					'module',
+					'exports',
+					'require',
+					'__filename',
+					'__dirname',
+					'return ' + el
+
+				)(parent, parent.exports, parent.require, parent.filename, path.dirname(parent.filename));
+			})
+		}
+
+		return val;
+
+	} catch (ignore) {
+		return val;
+	}
+}

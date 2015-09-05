@@ -35,10 +35,21 @@ webpack({
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'monic-loader?flags=ie:7|develop,labels=full'
+        loader: 'monic-loader?flags=ie:7|develop&labels=full|baz'
+      }
+    ]
+  },
+
+  monic: {
+    replacers: [
+      // Replaces require to #include
+      // ("this" refers to the instance of the compiler)
+      function (text, file) {
+        return text.replace(/^\s*require\('(.*?)'\);/gm, '//#include $1');
       }
     ]
   }
+
 }, function (err, stats) {
     // ...
 });
