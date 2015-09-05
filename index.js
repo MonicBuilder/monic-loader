@@ -71,7 +71,7 @@ function parse(val) {
 					'return ' + el
 
 				)(parent, parent.exports, parent.require, parent.filename, path.dirname(parent.filename));
-			})
+			});
 		}
 
 		return val;
