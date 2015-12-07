@@ -11,7 +11,7 @@ Using [Monic](https://github.com/MonicBuilder/Monic) with [WebPack](http://webpa
 ## Install
 
 ```bash
-npm install monic-loader --save-dev
+npm install monic monic-loader --save-dev
 ```
 
 ## Usage
