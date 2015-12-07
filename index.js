@@ -53,7 +53,7 @@ module.exports = function (source, inputSourceMap) {
 		saveFiles: false
 	});
 
-	monic.compile(loaderUtils.getRemainingRequest(this), opts, function (err, data, sourceMap) {
+	monic.compile(this.resourcePath, opts, function (err, data, sourceMap) {
 		cb(err, data, sourceMap && sourceMap.map);
 	});
 };
