@@ -34,7 +34,8 @@
   },
   "devDependencies": {
     "jscs": "^2.0.0",
-    "monic": "^2.0.0"
+    "monic": "^2.0.0",
+    "webpack": "^1.12.11"
   },
   "peerDependencies": {
     "monic": "^2.0.0",
