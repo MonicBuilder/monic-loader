@@ -33,7 +33,7 @@
     "loader-utils": "^0.2.7"
   },
   "devDependencies": {
-    "jscs": "^2.0.0",
+    "jscs": "^3.0.0",
     "monic": "^2.0.0",
     "webpack": "^1.12.11"
   },
