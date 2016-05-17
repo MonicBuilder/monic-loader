@@ -23,7 +23,8 @@ module.exports = function (source, inputSourceMap) {
 	var
 		opts = loaderUtils.parseQuery(this.query),
 		optsIsObj = /^\?(?:\{|\[)/.test(this.query),
-		cb = this.async();
+		cb = this.async(),
+		that = this;
 
 	opts = $C(opts).reduce(function (map, val, key) {
 		if ({flags: true, labels: true}[key] && !optsIsObj) {
@@ -51,6 +52,12 @@ module.exports = function (source, inputSourceMap) {
 		inputSourceMap: inputSourceMap,
 		content: source,
 		saveFiles: false
+	});
+
+	opts.replacers = opts.replacers || [];
+	opts.replacers.push(function (content, file) {
+		that.addDependency(file);
+		return content;
 	});
 
 	monic.compile(this.resourcePath, opts, function (err, data, sourceMap) {
