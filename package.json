@@ -4,7 +4,7 @@
   "homepage": "https://github.com/MonicBuilder/monic-loader",
   "main": "index.js",
   "license": "MIT",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "author": {
     "name": "kobezzza",
     "email": "kobezzza@mail.ru",
@@ -34,6 +34,7 @@
     "monic": "^2.0.0"
   },
   "devDependencies": {
+    "eslint": "^2.13.1",
     "jscs": "^2.0.0"
   }
 }
