@@ -11,7 +11,7 @@ Using [Monic](https://github.com/MonicBuilder/Monic) with [WebPack](http://webpa
 ## Install
 
 ```bash
-npm install monic-loader --save-dev
+npm install monic monic-loader --save-dev
 ```
 
 ## Usage
@@ -35,16 +35,27 @@ webpack({
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'monic-loader?flags=ie|develop,labels=full'
+        loader: 'monic-loader?flags=ie:7|develop&labels=full|baz'
+      }
+    ]
+  },
+
+  monic: {
+    replacers: [
+      // Replaces require to #include
+      // ("this" refers to the instance of the compiler)
+      function (text, file) {
+        return text.replace(/^\s*require\('(.*?)'\);/gm, '//#include $1');
       }
     ]
   }
+
 }, function (err, stats) {
     // ...
 });
 ```
 
 ## [Options](https://github.com/MonicBuilder/Monic#using-in-nodejs)
-## [License](https://github.com/MonicBuilder/gulp-monic/blob/master/LICENSE)
+## [License](https://github.com/MonicBuilder/monic-loader/blob/master/LICENSE)
 
 The MIT License.
