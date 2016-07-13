@@ -6,6 +6,8 @@
  * https://github.com/MonicBuilder/monic-loader/blob/master/LICENSE
  */
 
+require('core-js');
+
 var
 	$C = require('collection.js/compiled'),
 	parent = module.parent;
