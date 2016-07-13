@@ -7,7 +7,7 @@
  */
 
 var
-	$C = require('collection.js').$C,
+	$C = require('collection.js/compiled'),
 	parent = module.parent;
 
 var
