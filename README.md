@@ -6,6 +6,7 @@ Using [Monic](https://github.com/MonicBuilder/Monic) with [WebPack](http://webpa
 [![NPM version](http://img.shields.io/npm/v/monic-loader.svg?style=flat)](http://badge.fury.io/js/monic-loader)
 [![NPM dependencies](http://img.shields.io/david/MonicBuilder/monic-loader.svg?style=flat)](https://david-dm.org/MonicBuilder/monic-loader)
 [![NPM devDependencies](http://img.shields.io/david/dev/MonicBuilder/monic-loader.svg?style=flat)](https://david-dm.org/MonicBuilder/monic-loader?type=dev)
+[![NPM peerDependencies](http://img.shields.io/david/peer/MonicBuilder/monic-loader.svg?style=flat)](https://david-dm.org/MonicBuilder/monic-loader?type=peer)
 [![Build Status](http://img.shields.io/travis/MonicBuilder/monic-loader.svg?style=flat&branch=master)](https://travis-ci.org/MonicBuilder/monic-loader)
 
 ## Install
