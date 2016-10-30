@@ -30,10 +30,10 @@
   ],
   "dependencies": {
     "collection.js": "^6.0.0-beta.5",
-    "core-js": "^2.4.0",
     "loader-utils": "^0.2.7"
   },
   "devDependencies": {
+    "babel-eslint": "^7.1.0",
     "eslint": "^3.0.0",
     "monic": "^2.0.0",
     "webpack": "^1.12.11"

@@ -1,3 +1,5 @@
+'use strict';
+
 /*!
  * monic-loader
  * https://github.com/MonicBuilder/monic-loader
@@ -6,31 +8,28 @@
  * https://github.com/MonicBuilder/monic-loader/blob/master/LICENSE
  */
 
-require('core-js');
-
-var
+const
 	$C = require('collection.js/compiled'),
 	parent = module.parent;
 
-var
+const
 	path = require('path'),
 	loaderUtils = require('loader-utils'),
 	monic = require('monic');
 
 module.exports = function (source, inputSourceMap) {
-	if (this.cacheable) {
-		this.cacheable();
-	}
+	this.cacheable && this.cacheable();
 
-	var
-		opts = loaderUtils.parseQuery(this.query),
+	const
 		optsIsObj = /^\?(?:\{|\[)/.test(this.query),
-		cb = this.async(),
-		that = this;
+		cb = this.async();
 
-	opts = $C(opts).reduce(function (map, val, key) {
+	let
+		opts = loaderUtils.parseQuery(this.query);
+
+	opts = $C(opts).reduce((map, val, key) => {
 		if ({flags: true, labels: true}[key] && !optsIsObj) {
-			map[key] = $C(val.split('|')).reduce(function (map, el) {
+			map[key] = $C(val.split('|')).reduce((map, el) => {
 				if (key === 'labels') {
 					map[el] = true;
 
@@ -49,38 +48,40 @@ module.exports = function (source, inputSourceMap) {
 		return map;
 	}, {});
 
-	opts = $C.extend(false, {}, this.options.monic, opts, {
+	opts = Object.assign({}, this.options.monic, opts, {
+		inputSourceMap,
 		sourceMaps: this.sourceMap,
-		inputSourceMap: inputSourceMap,
 		content: source,
 		saveFiles: false
 	});
 
 	opts.replacers = opts.replacers || [];
-	opts.replacers.push(function (content, file) {
-		that.addDependency(file);
+	opts.replacers.push((content, file) => {
+		this.addDependency(file);
 		return content;
 	});
 
-	monic.compile(this.resourcePath, opts, function (err, data, sourceMap) {
+	monic.compile(this.resourcePath, opts, (err, data, sourceMap) => {
 		cb(err, data, sourceMap && sourceMap.map);
 	});
 };
 
+function toJS(str) {
+	return new Function(
+		'module',
+		'exports',
+		'require',
+		'__filename',
+		'__dirname',
+		`return ${str}`
+
+	)(parent, parent.exports, parent.require, parent.filename, path.dirname(parent.filename));
+}
+
 function parse(val) {
 	try {
 		if (typeof val === 'object') {
-			$C(val).forEach(function (el, key) {
-				val[key] = new Function(
-					'module',
-					'exports',
-					'require',
-					'__filename',
-					'__dirname',
-					'return ' + el
-
-				)(parent, parent.exports, parent.require, parent.filename, path.dirname(parent.filename));
-			});
+			$C(val).set((el) => toJS(el));
 		}
 
 		return val;
