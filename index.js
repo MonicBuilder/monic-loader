@@ -55,13 +55,15 @@ module.exports = function (source, inputSourceMap) {
 		saveFiles: false
 	});
 
+	const files = {};
 	opts.replacers = opts.replacers || [];
 	opts.replacers.push((content, file) => {
-		this.addDependency(file);
+		files[path.normalize(file)] = true;
 		return content;
 	});
 
 	monic.compile(this.resourcePath, opts, (err, data, sourceMap) => {
+		$C(files).forEach((el, file) => this.addDependency(file));
 		cb(err, data, sourceMap && sourceMap.map);
 	});
 };
