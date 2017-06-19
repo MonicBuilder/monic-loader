@@ -33,8 +33,7 @@
     "loader-utils": "^0.2.7"
   },
   "devDependencies": {
-    "babel-eslint": "^7.1.0",
-    "eslint": "^3.0.0",
+    "eslint": "^4.0.0",
     "monic": "^2.0.0",
     "webpack": "^1.12.11"
   },
