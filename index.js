@@ -10,25 +10,22 @@
 
 const
 	$C = require('collection.js/compiled'),
-	parent = module.parent;
-
-const
 	path = require('path'),
 	loaderUtils = require('loader-utils'),
 	monic = require('monic');
 
-module.exports = function (source, inputSourceMap) {
-	this.cacheable && this.cacheable();
+const optsMap = {
+	flags: true,
+	labels: true
+};
 
+module.exports = function (source, inputSourceMap) {
 	const
-		optsIsObj = /^\?(?:\{|\[)/.test(this.query),
+		optsIsStr = typeof this.query === 'string',
 		cb = this.async();
 
-	let
-		opts = loaderUtils.parseQuery(this.query);
-
-	opts = $C(opts).reduce((map, val, key) => {
-		if ({flags: true, labels: true}[key] && !optsIsObj) {
+	const opts = $C(loaderUtils.getOptions(this)).reduce((map, val, key) => {
+		if (optsMap[key] && optsIsStr) {
 			map[key] = $C(val.split('|')).reduce((map, el) => {
 				if (key === 'labels') {
 					map[el] = true;
@@ -42,13 +39,13 @@ module.exports = function (source, inputSourceMap) {
 			}, {});
 
 		} else {
-			map[key] = parse(val);
+			map[key] = val;
 		}
 
 		return map;
 	}, {});
 
-	opts = Object.assign({}, this.options.monic, opts, {
+	Object.assign(opts, {
 		inputSourceMap,
 		sourceMaps: this.sourceMap,
 		content: source,
@@ -67,28 +64,3 @@ module.exports = function (source, inputSourceMap) {
 		cb(err, data, sourceMap && sourceMap.map);
 	});
 };
-
-function toJS(str) {
-	return new Function(
-		'module',
-		'exports',
-		'require',
-		'__filename',
-		'__dirname',
-		`return ${str}`
-
-	)(parent, parent.exports, parent.require, parent.filename, path.dirname(parent.filename));
-}
-
-function parse(val) {
-	try {
-		if (typeof val === 'object') {
-			$C(val).set((el) => toJS(el));
-		}
-
-		return val;
-
-	} catch (ignore) {
-		return val;
-	}
-}
