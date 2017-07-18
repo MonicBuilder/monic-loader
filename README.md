@@ -12,10 +12,15 @@ Using [Monic](https://github.com/MonicBuilder/Monic) with [WebPack](http://webpa
 ## Install
 
 ```bash
+# WebPack 1
+npm install monic monic-loader@webpack1 --save-dev
+
+# WebPack 2+
 npm install monic monic-loader --save-dev
 ```
 
 ## Usage
+### Webpack 1
 
 **webpack.config.json**
 
@@ -47,6 +52,53 @@ webpack({
       // ("this" refers to the instance of the compiler)
       function (text, file) {
         return text.replace(/^\s*require\('(.*?)'\);/gm, '//#include $1');
+      }
+    ]
+  }
+
+}, function (err, stats) {
+    // ...
+});
+```
+
+### Webpack 2+
+
+**webpack.config.json**
+
+```js
+var webpack = require('webpack');
+
+webpack({
+  entry: {
+      index: './index.js'
+  },
+
+  output: {
+      filename: '[name].bundle.js'
+  },
+
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            // Can be used: monic-loader?flags=ie:7|develop&labels=full|baz
+            loader: 'monic-loader',
+            options: {
+              flags: ['ie:7', 'develop'],
+              labels: ['full', 'baz'],
+              replacers: [
+                // Replaces require to #include
+                // ("this" refers to the instance of the compiler)
+                function (text, file) {
+                  return text.replace(/^\s*require\('(.*?)'\);/gm, '//#include $1');
+                }
+              ]
+            }
+          }
+        ]
       }
     ]
   }
