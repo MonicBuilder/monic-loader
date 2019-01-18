@@ -4,7 +4,7 @@
   "homepage": "https://github.com/MonicBuilder/monic-loader",
   "main": "index.js",
   "license": "MIT",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "author": {
     "name": "kobezzza",
     "email": "kobezzza@mail.ru",
@@ -29,13 +29,13 @@
     "monic"
   ],
   "dependencies": {
-    "collection.js": "^6.0.0-beta.19",
-    "loader-utils": "^1.1.0"
+    "collection.js": "^6.6.27",
+    "loader-utils": "^1.2.3"
   },
   "devDependencies": {
-    "eslint": "^4.2.0",
-    "monic": "^2.0.0",
-    "webpack": "^3.0.0"
+    "eslint": "^5.12.0",
+    "monic": "^2.5.1",
+    "webpack": "^4.28.4"
   },
   "peerDependencies": {
     "monic": "^2.0.0",
