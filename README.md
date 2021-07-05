@@ -7,7 +7,6 @@ Using [Monic](https://github.com/MonicBuilder/Monic) with [WebPack](http://webpa
 [![NPM dependencies](http://img.shields.io/david/MonicBuilder/monic-loader.svg?style=flat)](https://david-dm.org/MonicBuilder/monic-loader)
 [![NPM devDependencies](http://img.shields.io/david/dev/MonicBuilder/monic-loader.svg?style=flat)](https://david-dm.org/MonicBuilder/monic-loader?type=dev)
 [![NPM peerDependencies](http://img.shields.io/david/peer/MonicBuilder/monic-loader.svg?style=flat)](https://david-dm.org/MonicBuilder/monic-loader?type=peer)
-[![Build Status](http://img.shields.io/travis/MonicBuilder/monic-loader.svg?style=flat&branch=master)](https://travis-ci.org/MonicBuilder/monic-loader)
 
 ## Install
 
@@ -91,7 +90,7 @@ webpack({
               labels: ['full', 'baz'],
               replacers: [
                 // Replaces require to #include
-                // ("this" refers to the instance of the compiler)
+                // ("this" refers to the compiler' instance)
                 function (text, file) {
                   return text.replace(/^\s*require\('(.*?)'\);/gm, '//#include $1');
                 }
