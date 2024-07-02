@@ -8,6 +8,8 @@
  * https://github.com/MonicBuilder/monic-loader/blob/master/LICENSE
  */
 
+const dependencyReplacerSettled = Symbol('dependencyReplacerSettled');
+
 const
 	$C = require('collection.js/compiled'),
 	path = require('path'),
@@ -52,15 +54,17 @@ module.exports = function (source, inputSourceMap) {
 		saveFiles: false
 	});
 
-	const files = {};
+	const files = new Set();
 	opts.replacers = opts.replacers || [];
-	opts.replacers.push((content, file) => {
-		files[path.normalize(file)] = true;
-		return content;
-	});
-
+	if (!opts.replacers[dependencyReplacerSettled]) {
+		opts.replacers.push((content, file) => {
+			files.add(path.normalize(file));
+			return content;
+		});
+		opts.replacers[dependencyReplacerSettled] = true;
+	}
 	monic.compile(this.resourcePath, opts, (err, data, sourceMap) => {
-		$C(files).forEach((el, file) => this.addDependency(file));
+		files.forEach(file => this.addDependency(file));
 		cb(err, data, sourceMap && sourceMap.map);
 	});
 };
