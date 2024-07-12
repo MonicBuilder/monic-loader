@@ -56,6 +56,7 @@ module.exports = function (source, inputSourceMap) {
 
 	const files = new Set();
 	opts.replacers = opts.replacers || [];
+
 	if (!opts.replacers[dependencyReplacerSettled]) {
 		opts.replacers.push((content, file) => {
 			files.add(path.normalize(file));
