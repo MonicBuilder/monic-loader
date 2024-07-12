@@ -61,6 +61,7 @@ module.exports = function (source, inputSourceMap) {
 			files.add(path.normalize(file));
 			return content;
 		});
+
 		opts.replacers[dependencyReplacerSettled] = true;
 	}
 	monic.compile(this.resourcePath, opts, (err, data, sourceMap) => {
