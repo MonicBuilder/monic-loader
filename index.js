@@ -54,20 +54,19 @@ module.exports = function (source, inputSourceMap) {
 		saveFiles: false
 	});
 
-	const files = new Set();
 	opts.replacers = opts.replacers || [];
 
 	if (!opts.replacers[dependencyReplacerSettled]) {
+		opts.replacers[dependencyReplacerSettled] = new Set();
 		opts.replacers.push((content, file) => {
-			files.add(path.normalize(file));
+			opts.replacers[dependencyReplacerSettled].add(path.normalize(file));
 			return content;
 		});
 
-		opts.replacers[dependencyReplacerSettled] = true;
 	}
 
 	monic.compile(this.resourcePath, opts, (err, data, sourceMap) => {
-		files.forEach(file => this.addDependency(file));
+		opts.replacers[dependencyReplacerSettled].forEach(file => this.addDependency(file));
 		cb(err, data, sourceMap && sourceMap.map);
 	});
 };
