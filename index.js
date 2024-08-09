@@ -71,6 +71,7 @@ module.exports = function (source, inputSourceMap) {
 				this.addDependency(file);
 			}
 		});
+
 		opts.replacers[dependencyReplacerSettled].clear();
 		cb(err, data, sourceMap && sourceMap.map);
 	});
