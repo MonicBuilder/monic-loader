@@ -66,7 +66,12 @@ module.exports = function (source, inputSourceMap) {
 	}
 
 	monic.compile(this.resourcePath, opts, (err, data, sourceMap) => {
-		opts.replacers[dependencyReplacerSettled].forEach(file => this.addDependency(file));
+		opts.replacers[dependencyReplacerSettled].forEach(file => {
+			if (this.resourcePath !== file) {
+				this.addDependency(file);
+			}
+		});
+		opts.replacers[dependencyReplacerSettled].clear();
 		cb(err, data, sourceMap && sourceMap.map);
 	});
 };
